@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="biblioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Auteurs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="date_naissance" Type="date" />
+          <Property Name="nationalite" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Livres">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="titre" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="pages" Type="int" Nullable="false" />
+          <Property Name="image" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="resume" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="id_auteur" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Oeuvres_Auteurs">
+          <End Role="Auteurs" Type="Self.Auteurs" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Livres" Type="Self.Livres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Auteurs">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Livres">
+              <PropertyRef Name="id_auteur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="biblioModelStoreContainer">
+          <EntitySet Name="Auteurs" EntityType="Self.Auteurs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Livres" EntityType="Self.Livres" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Oeuvres_Auteurs" Association="Self.FK_Oeuvres_Auteurs">
+            <End Role="Auteurs" EntitySet="Auteurs" />
+            <End Role="Livres" EntitySet="Livres" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="biblioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Livres">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="titre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pages" Type="Int32" Nullable="false" />
+          <Property Name="image" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="resume" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id_auteur" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="biblioEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Livres" EntityType="Self.Livres" />
+          <EntitySet Name="Auteurs" EntityType="biblioModel.Auteurs" />
+          <AssociationSet Name="FK_Oeuvres_Auteurs" Association="biblioModel.FK_Oeuvres_Auteurs">
+            <End Role="Auteurs" EntitySet="Auteurs" />
+            <End Role="Livres" EntitySet="Livres" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Auteurs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="date_naissance" Type="DateTime" Precision="0" />
+          <Property Name="nationalite" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Oeuvres_Auteurs">
+          <End Type="biblioModel.Auteurs" Role="Auteurs" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="biblioModel.Livres" Role="Livres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Auteurs">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Livres">
+              <PropertyRef Name="id_auteur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="biblioModelStoreContainer" CdmEntityContainer="biblioEntities">
+          <EntitySetMapping Name="Livres">
+            <EntityTypeMapping TypeName="biblioModel.Livres">
+              <MappingFragment StoreEntitySet="Livres">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="titre" ColumnName="titre" />
+                <ScalarProperty Name="pages" ColumnName="pages" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="resume" ColumnName="resume" />
+                <ScalarProperty Name="id_auteur" ColumnName="id_auteur" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Auteurs">
+            <EntityTypeMapping TypeName="biblioModel.Auteurs">
+              <MappingFragment StoreEntitySet="Auteurs">
+                <ScalarProperty Name="nationalite" ColumnName="nationalite" />
+                <ScalarProperty Name="date_naissance" ColumnName="date_naissance" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

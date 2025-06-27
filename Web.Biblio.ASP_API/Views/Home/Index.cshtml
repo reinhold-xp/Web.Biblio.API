@@ -1,0 +1,48 @@
+﻿
+<style>
+    .jumbotron {
+        background-color: #f1f5f9;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .btn-swagger img {
+        transition: transform 0.3s ease;
+    }
+
+    .btn-swagger:hover img {
+        transform: scale(1.2);
+    }
+
+    .btn-swagger:hover {
+        background-color: lightgreen;
+        transition: background-color 0.3s ease;
+    }
+</style>
+
+
+<div class="container">
+    @{
+        ViewBag.Title = "Portail API";
+    }
+
+    <div class="jumbotron">
+        <h1>@ViewBag.Title</h1>
+        <p class="lead">Connectez-vous à nos services et explorez la documentation</p>
+
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center flex-wrap gap-3">
+                <div class="col-12 col-md-4 mb-2">
+                    <a href="/help" class="btn btn-primary btn-lg w-100">Documentation</a>
+                </div>
+                <div class="col-12 col-md-4 mb-2">
+                    <a href="@Url.Action("Swagger", "Home")" class="btn btn-outline-secondary btn-lg w-100 btn-swagger">
+                        <img src="@Url.Content("~/images/swagger-icon.png")" alt="Swagger" style="height: 24px; margin-right: 8px;" />
+                        Swagger UI
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

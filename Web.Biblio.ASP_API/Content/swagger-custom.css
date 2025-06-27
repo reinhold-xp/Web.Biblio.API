@@ -1,0 +1,17 @@
+﻿.logo__img {
+    display: none !important;
+}
+
+.info_title {
+    display: none !important;
+}
+
+#header {
+    background-color: white !important;
+}
+
+#api_selector {
+    display:none !important;
+}
+
+
